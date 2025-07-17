@@ -39,7 +39,7 @@ export function clearAllPools(): void {
 }
 
 function getPoolDetailsFromConnectionString(
-  { logger }: ParsedSettings,
+  { logger, ssl }: ParsedSettings,
   connectionString: string,
 ): PoolDetails {
   let details: PoolDetailsInternal | undefined =
@@ -49,7 +49,7 @@ function getPoolDetailsFromConnectionString(
     if (!database) {
       throw new Error("Connection string does not specify a database");
     }
-    const pool = new Pool({ connectionString });
+    const pool = new Pool({ connectionString, ssl });
     pool.on("error", (error: Error) => {
       logger.error(`An error occurred in the PgPool: ${error.message}`, {
         error,

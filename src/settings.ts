@@ -84,6 +84,7 @@ export interface Settings {
   afterCurrent?: Actions;
   blankMigrationContent?: string;
   logger?: Logger;
+  ssl?: { ca?: string };
 }
 
 // NOTE: only override values that differ (e.g. changing non-nullability)
