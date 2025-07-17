@@ -290,6 +290,18 @@ export async function parseSettings(
     },
   );
 
+  const ssl = await check("ssl", (ssl): { ca?: string } | undefined => {
+    if (ssl && typeof ssl === "object") {
+      if ("ca" in ssl && typeof ssl.ca !== "string") {
+        throw new Error(
+          "Invalid SSL configuration: `ssl.ca` must be a string when provided",
+        );
+      }
+      return ssl;
+    }
+    return undefined;
+  });
+
   const validateAction = makeValidateActionCallback(logger);
   const rootValidateAction = makeValidateActionCallback(logger, true);
 
@@ -391,6 +403,7 @@ export async function parseSettings(
     placeholders,
     blankMigrationContent,
     logger,
+    ssl,
   };
 }
 
